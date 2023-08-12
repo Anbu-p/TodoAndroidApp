@@ -2,7 +2,7 @@ package com.example.todoandroidapp.model;
 
 public class Project {
 
-    private Long id;
+    private int id;
     private String label;
     private boolean checked;
 
@@ -14,11 +14,11 @@ public class Project {
         this.checked = checked;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(final Long id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -31,6 +31,6 @@ public class Project {
     }
 
     public String toString() {
-        return String.format("%s", label);
+        return String.format("%s   %s", id, label);
     }
 }

@@ -16,12 +16,16 @@ public class TodoServiceImpl implements Service<Todo> {
     }
 
     @Override
-    public void remove(final long id) {
+    public void remove(long id) {
         todoList = todoList.stream().filter(todo -> todo.getId() != (id)).collect(Collectors.toList());
     }
 
     @Override
     public List<Todo> getAll() {
-        return todoList;
+        //if (parentId == null) {
+            return todoList;
+       // }
+       // return  todoList.stream().filter(todo -> todo.getParentId().equals(parentId)).collect(Collectors.toList());
     }
 }
+

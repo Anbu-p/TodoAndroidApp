@@ -16,7 +16,7 @@ public class TodoProjectImpl implements Service<Project>{
 
     @Override
     public void remove(final long id) {
-        projectList = projectList.stream().filter(project -> project.getId() != (id)).collect(Collectors.toList());
+        projectList = projectList.stream().filter(project -> project.getId() != id).collect(Collectors.toList());
     }
 
     @Override

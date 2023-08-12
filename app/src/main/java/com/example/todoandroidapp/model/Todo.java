@@ -3,7 +3,7 @@ package com.example.todoandroidapp.model;
 public class Todo {
     private Long id;
     private String label;
-    private Long parentId;
+    private int parentId;
     private boolean checked;
 
     public Long getId() {
@@ -22,11 +22,11 @@ public class Todo {
         this.label = label;
     }
 
-    public Long getParentId() {
+    public int getParentId() {
         return parentId;
     }
 
-    public void setParentId(Long parentId) {
+    public void setParentId(int parentId) {
         this.parentId = parentId;
     }
 
@@ -39,6 +39,6 @@ public class Todo {
     }
 
     public String toString() {
-        return String.format("%s", label);
+        return String.format(" %s %s", parentId, label);
     }
 }
