@@ -1,8 +1,10 @@
 package com.example.todoandroidapp;
 
 import android.app.AlertDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -34,10 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
     private static final ProjectController PROJECT_CONTROLLER = new ProjectController();
     private static final TodoController TODO_CONTROLLER = new TodoController();
+    private final TodoListActivity todoListActivity = new TodoListActivity();
     private DrawerLayout drawerLayout;
     private ListView listView;
     private ArrayAdapter<Project> arrayAdapter;
     private final List<Project> projects;
+    private  Project project;
+    private int id = 1;
 
     public MainActivity() {
         this.projects = new ArrayList<>();
@@ -56,7 +61,16 @@ public class MainActivity extends AppCompatActivity {
         menuButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
         backToManu.setOnClickListener(view -> onBackPressed());
         addListName.setOnClickListener(view -> showDialogView());
-        listView.setOnItemClickListener((parent, view, position, id) -> startActivity(new Intent(view.getContext(), TodoListActivity.class)));
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            Project project = projects.get(i);
+                    final Intent intent = new Intent(view.getContext(), TodoListActivity.class);
+
+                    intent.putExtra("id", project.getId());
+                    startActivity(intent);
+                }
+        );
+
+        ;/*((parent, view, position, id) -> startActivity(new Intent(view.getContext(), TodoListActivity.class)));*/
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             final int removeItem = position;
             final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
@@ -108,9 +122,9 @@ public class MainActivity extends AppCompatActivity {
                         if (getLabel(projects).contains(label)) {
                             Toast.makeText(getBaseContext(), "Item Already Exist", Toast.LENGTH_LONG).show();
                         } else {
-                            final Project project = new Project();
-
+                            project = new Project();
                             project.setLabel(label);
+                            project.setId(id++);
                             projects.add(project);
                             arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, projects);
                             listView.setAdapter(arrayAdapter);

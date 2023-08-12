@@ -19,26 +19,34 @@ import com.example.todoandroidapp.model.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TodoListActivity extends AppCompatActivity {
 
     private TableLayout tableLayout;
-    private final List<Todo> todoProject;
-
-    public TodoListActivity() {
-        this.todoProject = new ArrayList<>();
-    }
+    private final static List<Todo> todoProject = new ArrayList<>();
+    private Todo todo;
+    private int id ;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        id = getIntent().getIntExtra("id", 0);
         setContentView(R.layout.list_main);
         tableLayout = findViewById(R.id.tableLayout);
         final Button addButton = findViewById(R.id.button);
         final ImageButton backToMenu = findViewById(R.id.backToMenu);
 
-        backToMenu.setOnClickListener(view -> onBackPressed());
-        addButton.setOnClickListener(view -> showDialogView());
+        backToMenu.setOnClickListener(view -> {
+            onBackPressed();
+        });
+        addButton.setOnClickListener(view -> {
+            showDialogView();
+        });
+
+        for (int i = 0; i < 1 ; i++) {
+            viewData(id);
+        }
     }
 
     /**
@@ -54,9 +62,10 @@ public class TodoListActivity extends AppCompatActivity {
                     final String label = editText.getText().toString();
 
                     if (!(label.equals(""))) {
-                        final Todo todo = new Todo();
+                        todo = new Todo();
 
                         todo.setLabel(label);
+                        todo.setParentId(id);
                         todoProject.add(todo);
                         createTableRow(todo);
                     } else {
@@ -111,5 +120,17 @@ public class TodoListActivity extends AppCompatActivity {
         tableLayout.removeView(tableRow);
         todoProject.remove(todoItem);
     }
-}
+
+    private void viewData(final int id) {
+        for (final Todo todo : todoProject) {
+
+           if (Objects.nonNull(todo)) {
+
+                if (id == todo.getParentId()) {
+                    createTableRow(todo);
+                }
+           }
+            }
+        }
+    }
 
